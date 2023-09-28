@@ -1,2 +1,2 @@
-# cucine-ausl-manager
-Visualizzatore dei menu da parte delle cucine approvate AUSL
+# Cucine (Pari o Dispari)
+Visualizzatore dei menu approvati da AUSL e relative modifiche delle famiglie per le cucine
