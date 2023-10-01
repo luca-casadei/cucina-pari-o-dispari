@@ -1,6 +1,6 @@
 import React from 'react';
 import Home from './Home';
-import Profilo from './Profilo';
+import Profile from './Profile';
 import Login from './Login';
 import { Alert } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
@@ -10,7 +10,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 //Screen names
 const loginName = "Login"
-const logoutName = "Logout"
+const logoutName = "Disconnetti"
 const homeName = "Home"
 const profileName = "Profilo"
 
@@ -44,7 +44,7 @@ export default function TabBar({ navigation }) {
           })}
           >
             <Tab.Screen name={homeName} component={Home} />
-            <Tab.Screen name={profileName} component={Profilo} />
+            <Tab.Screen name={profileName} component={Profile} />
             <Tab.Screen name={logoutName} component={Login} listeners={{
               tabPress: e => {
                 e.preventDefault()

@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-export default function Profilo() { 
+export default function Profile() { 
   return (
       <View style={styles.container}>
             <Text>Questo è il tuo profilo</Text>
