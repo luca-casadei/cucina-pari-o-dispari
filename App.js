@@ -4,14 +4,19 @@ import TabBar from './components/TabBar';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+//Screen names
+const loginName = "Login"
+const tabBarName = "TabBar";
+
 const Stack = createNativeStackNavigator();
+
 
 export default function App() {
   return (
   <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="TabBar" component={TabBar} />
+      <Stack.Navigator initialRouteName={loginName} screenOptions={{ headerShown: false, }}>
+        <Stack.Screen name={loginName} component={Login} />
+        <Stack.Screen name={tabBarName} component={TabBar} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, Image, Text, View, TextInput, Linking, Pressable } from 'react-native';
 
+//Screen names
+const tabBarName = "TabBar";
 
 export default function Login({ navigation }) {
     return (
@@ -11,7 +13,7 @@ export default function Login({ navigation }) {
             <Text style={styles.loginText}>Inserisci la password </Text>
             <TextInput secureTextEntry={true} placeholder="Password" placeholderTextColor="black" style={styles.loginTextInput}></TextInput>
             <Text style={{color: 'blue', margin: 20}} onPress={() => Linking.openURL('http://google.com')}>Password dimenticata?</Text>
-            <Pressable onPress={() => navigation.navigate('TabBar')} style={styles.loginPressable}><Text style={{textAlign: 'center', fontWeight: 'bold', color:'white'}}>Accedi</Text></Pressable>
+            <Pressable onPress={() => navigation.navigate(tabBarName)} style={styles.loginPressable}><Text style={{textAlign: 'center', fontWeight: 'bold', color:'white'}}>Accedi</Text></Pressable>
         </View>
     );
 }

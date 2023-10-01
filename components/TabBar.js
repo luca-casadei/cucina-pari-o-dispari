@@ -1,11 +1,16 @@
 import React from 'react';
 import Home from './Home';
 import Profilo from './Profilo';
+import Login from './Login';
+import { Alert } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+
 //Screen names
+const loginName = "Login"
+const logoutName = "Logout"
 const homeName = "Home"
 const profileName = "Profilo"
 
@@ -26,7 +31,9 @@ export default function TabBar({ navigation }) {
   
               } else if (rn === profileName) {
                 iconName = focused ? 'person' : 'person-outline';
-              } 
+              } else if (rn === logoutName) {
+                iconName = 'log-out-outline';
+              }
   
               return <Ionicons name={iconName} size={size} color={color} />;
             },
@@ -38,6 +45,21 @@ export default function TabBar({ navigation }) {
           >
             <Tab.Screen name={homeName} component={Home} />
             <Tab.Screen name={profileName} component={Profilo} />
+            <Tab.Screen name={logoutName} component={Login} listeners={{
+              tabPress: e => {
+                e.preventDefault()
+                Alert.alert('Attenzione', 'L\'account verrà disconnesso!', [
+                  {
+                    text: 'Annulla',
+                    onPress: () => console.log('Logout annullato'),
+                    style: 'cancel',
+                  },
+                  {
+                    text: 'OK', onPress: () => {console.log('Logout effettuato'); navigation.navigate(loginName);}
+                  },
+                ]);
+              }
+            }}/>
         </Tab.Navigator>
     </NavigationContainer>
   );
