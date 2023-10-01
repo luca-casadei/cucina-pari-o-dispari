@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "cucina-pari-o-dispari",
+    "slug": "cucina-pari-o-dispari",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "cucina-pari-o-dispari"
+}
