@@ -5,13 +5,13 @@ import { StyleSheet, Image, Text, View, TextInput, Linking, Pressable } from 're
 export default function Login({ navigation }) {
     return (
         <View style={styles.container}>
-            <Image style={styles.logo} source={require('../Immagini/Logo.png')}></Image>
+            <Image style={styles.logo} source={require('../images/Logo.png')}></Image>
             <Text style={styles.loginText}>Inserisci lo username </Text>
             <TextInput placeholder="Username" placeholderTextColor="black" style={styles.loginTextInput}></TextInput>
             <Text style={styles.loginText}>Inserisci la password </Text>
             <TextInput secureTextEntry={true} placeholder="Password" placeholderTextColor="black" style={styles.loginTextInput}></TextInput>
             <Text style={{color: 'blue', margin: 20}} onPress={() => Linking.openURL('http://google.com')}>Password dimenticata?</Text>
-            <Pressable onPress={() => navigation.navigate('Home')} style={styles.loginPressable}><Text style={{textAlign: 'center', fontWeight: 'bold', color:'white'}}>Accedi</Text></Pressable>
+            <Pressable onPress={() => navigation.navigate('TabBar')} style={styles.loginPressable}><Text style={{textAlign: 'center', fontWeight: 'bold', color:'white'}}>Accedi</Text></Pressable>
         </View>
     );
 }

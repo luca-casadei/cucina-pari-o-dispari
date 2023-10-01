@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Image, Text, View, TextInput, Linking, Pressable } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 export default function Profilo({ navigation }) { 
   return (
