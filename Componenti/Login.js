@@ -1,23 +1,19 @@
 import React from 'react';
 import { StyleSheet, Image, Text, View, TextInput, Linking, Pressable } from 'react-native';
 
-export default class Login extends React.Component { 
-  constructor(props) {
-    super(props);
-  }
-  render() { 
+
+export default function Login({ navigation }) {
     return (
         <View style={styles.container}>
             <Image style={styles.logo} source={require('../Immagini/Logo.png')}></Image>
             <Text style={styles.loginText}>Inserisci lo username </Text>
             <TextInput placeholder="Username" placeholderTextColor="black" style={styles.loginTextInput}></TextInput>
             <Text style={styles.loginText}>Inserisci la password </Text>
-            <TextInput placeholder="Password" placeholderTextColor="black" style={styles.loginTextInput}></TextInput>
+            <TextInput secureTextEntry={true} placeholder="Password" placeholderTextColor="black" style={styles.loginTextInput}></TextInput>
             <Text style={{color: 'blue', margin: 20}} onPress={() => Linking.openURL('http://google.com')}>Password dimenticata?</Text>
-            <Pressable style={styles.loginPressable}><Text style={{textAlign: 'center', fontWeight: 'bold', color:'white'}}>Accedi</Text></Pressable>
+            <Pressable onPress={() => navigation.navigate('Home')} style={styles.loginPressable}><Text style={{textAlign: 'center', fontWeight: 'bold', color:'white'}}>Accedi</Text></Pressable>
         </View>
     );
-  }
 }
 
 const styles = StyleSheet.create({
