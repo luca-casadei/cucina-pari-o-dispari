@@ -11,7 +11,7 @@ export default function Login({ navigation }) {
             <Text style={styles.loginText}>Inserisci lo username </Text>
             <TextInput placeholder="Username" placeholderTextColor="black" style={styles.loginTextInput}></TextInput>
             <Text style={styles.loginText}>Inserisci la password </Text>
-            <TextInput secureTextEntry={true} placeholder="Password" placeholderTextColor="black" style={styles.loginTextInput}></TextInput>
+            <TextInput secureTextEntry={true} maxLength={20} placeholder="Password" placeholderTextColor="black" style={styles.loginTextInput}></TextInput>
             <Text style={{color: 'blue', margin: 20}} onPress={() => Linking.openURL('http://google.com')}>Password dimenticata?</Text>
             <Pressable onPress={() => navigation.navigate(tabBarName)} style={styles.loginPressable}><Text style={{textAlign: 'center', fontWeight: 'bold', color:'white'}}>Accedi</Text></Pressable>
         </KeyboardAvoidingView>
