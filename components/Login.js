@@ -1,12 +1,12 @@
 import React from 'react';
-import { StyleSheet, Image, Text, View, TextInput, Linking, Pressable } from 'react-native';
+import { StyleSheet, Image, Text, View, TextInput, Linking, Pressable, KeyboardAvoidingView } from 'react-native';
 
 //Screen names
 const tabBarName = "TabBar";
 
 export default function Login({ navigation }) {
     return (
-        <View style={styles.container}>
+        <KeyboardAvoidingView behavior="padding" style={styles.container}>
             <Image style={styles.logo} source={require('../images/Logo.png')}></Image>
             <Text style={styles.loginText}>Inserisci lo username </Text>
             <TextInput placeholder="Username" placeholderTextColor="black" style={styles.loginTextInput}></TextInput>
@@ -14,14 +14,14 @@ export default function Login({ navigation }) {
             <TextInput secureTextEntry={true} placeholder="Password" placeholderTextColor="black" style={styles.loginTextInput}></TextInput>
             <Text style={{color: 'blue', margin: 20}} onPress={() => Linking.openURL('http://google.com')}>Password dimenticata?</Text>
             <Pressable onPress={() => navigation.navigate(tabBarName)} style={styles.loginPressable}><Text style={{textAlign: 'center', fontWeight: 'bold', color:'white'}}>Accedi</Text></Pressable>
-        </View>
+        </KeyboardAvoidingView>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#fff',
+      backgroundColor: 'white',
       alignItems: 'center',
       justifyContent: 'center',
     },
