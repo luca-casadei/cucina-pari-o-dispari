@@ -1,6 +1,6 @@
 import React from 'react';
 import Login from './components/Login';
-import TabBar from './components/TabBar';
+import TabBar from './navigators/TabBar';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -8,6 +8,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 const loginName = "Login"
 const tabBarName = "TabBar";
 
+//Variables
 const Stack = createNativeStackNavigator();
 
 
