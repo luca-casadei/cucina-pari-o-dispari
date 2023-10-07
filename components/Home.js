@@ -1,10 +1,12 @@
 import React from 'react';
 import { StyleSheet,  Text, View } from 'react-native';
 
-export default function Home() { 
+export default function Home({ route }) { 
+  const { username } = route.params;
+  
   return (
       <View style={styles.container}>
-            <Text>Benvenuto/a!</Text>
+            <Text style={{fontSize: 30, flex: 1, }}>Benvenuto/a {username}!</Text>
 
       </View>
   );

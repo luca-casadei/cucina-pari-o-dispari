@@ -17,34 +17,55 @@ export default function Login({ navigation }) {
             <TextInput onChangeText={setPassword} secureTextEntry={true} maxLength={20} placeholder="Password" placeholderTextColor="black" style={styles.loginTextInput}></TextInput>
             <Text>Password dimenticata?</Text>
             <Text style={{color: 'blue', margin: 5}} onPress={() => Linking.openURL('https://www.auslromagna.it/')}>Contatta l'amministratore</Text>
-            <Pressable onPress={() => ()=>VerificaCredenziali(navigation,username,password)} style={styles.loginPressable}><Text style={{textAlign: 'center', fontWeight: 'bold', color:'white'}}>Accedi</Text></Pressable>
+            <Pressable onPress={() => VerificaCredenziali(navigation,username,password)} style={styles.loginPressable}><Text style={{textAlign: 'center', fontWeight: 'bold', color:'white'}}>Accedi</Text></Pressable>
         </KeyboardAvoidingView>
     );
 }
 
-VerificaCredenziali = async (navigation,username,password)=>{
-
-  const RESPONSE = await fetch('https://www.pariodispari.com/apis/cheflogin', {
+VerificaCredenziali = async (navigation, username, password)=>{
+  console.log(username);
+  console.log(password);
+  try{
+      var data = new URLSearchParams();
+      data.append('username', username);
+      data.append('password', password);
+      const response = await fetch('https://apis-pari-o-dispari.azurewebsites.net/cheflogin', {
       method: 'POST',
       mode: 'cors',
       headers: {
         'Accept': 'application/x-www-form-urlencoded',
         'Content-Type': 'application/x-www-form-urlencoded'
       },
-      body: new URLSearchParams({username: this.username, password:  this.password})
+        body: data.toString(),
+        json:true,
     })
-    .catch(error => {
-      console.error(error);
-    });
-    switch(RESPONSE.status){
-      case 200:{
-        navigation.navigate(tabBarName);
+    console.log(response.status);
+    switch(response.status){
+      case 502:{
+        alert("Errore interno, database non raggiungibile.");
         break;
       }
-      default: {
-        alert("Le credenziali inserite non sono valide!");
+      case 404:{
+        alert("Utente non trovato");
+        break;
+      }
+      case 400:{
+        alert("Credenziali invalide");
+        break;
+      }
+      case 200:{
+        response.json().then(navigation.navigate(tabBarName,{username: username}));
+        break; 
+      }
+      default:{
+        alert("Errore non gestito.");
+        break;
       }
     }
+  }catch(err)
+  {
+      console.log(err.message);
+  }
 }
 
 const styles = StyleSheet.create({

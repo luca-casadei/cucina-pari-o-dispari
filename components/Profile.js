@@ -5,25 +5,27 @@ import { StyleSheet, Text, View, TextInput, Pressable, KeyboardAvoidingView } fr
 const changePasswordName = "Cambia Password";
 
 //Variables 
-const username = "Francesco"; // Database call in order to get the real username. To-Do
 var email = "Email da prendere da DB";
 var psw = "Password da prendere da DB";
 
-export default function Profile({ navigation }) { 
+export default function Profile({ route, navigation }) {
+  const { username } = route.params;
+  
   return (
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : ''} style={styles.container}>
         <Text style={{fontSize: 30, flex: 0.9,}}>Informazioni su {username}</Text>
         <View style={{flex: 1, alignItems: 'center',}}>
+          
         <Text>Email</Text>
-          <View  style={{flexDirection:"row", margin: 10,}}>
-            <TextInput placeholder={email} placeholderTextColor="black" style={styles.profileTextInput}></TextInput>
-            <Pressable style={styles.profilePressable}><Text style={{textAlign: 'center', fontWeight: 'bold', color:'white'}}>Aggiungi</Text></Pressable>
-          </View>
-          <Text>Password</Text>
-          <View style={{flexDirection:"row", margin: 10,}}>
-            <TextInput placeholder={psw} placeholderTextColor="black" style={styles.profileTextInput}></TextInput>
-            <Pressable onPress={() => navigation.navigate(changePasswordName)} style={styles.profilePressableEdit}><Text style={{textAlign: 'center', fontWeight: 'bold', color:'white'}}>Modifica</Text></Pressable>
-          </View>
+        <View  style={{flexDirection:"row", margin: 10,}}>
+          <TextInput placeholder={email} placeholderTextColor="black" style={styles.profileTextInput}></TextInput>
+          <Pressable style={styles.profilePressable}><Text style={{textAlign: 'center', fontWeight: 'bold', color:'white'}}>Aggiungi</Text></Pressable>
+        </View>
+        <Text>Password</Text>
+        <View style={{flexDirection:"row", margin: 10,}}>
+          <TextInput placeholder={psw} placeholderTextColor="black" style={styles.profileTextInput}></TextInput>
+          <Pressable onPress={() => navigation.navigate(changePasswordName)} style={styles.profilePressableEdit}><Text style={{textAlign: 'center', fontWeight: 'bold', color:'white'}}>Modifica</Text></Pressable>
+        </View>
         </View>
       </KeyboardAvoidingView>
   );

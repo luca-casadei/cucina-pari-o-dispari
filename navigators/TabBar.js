@@ -17,7 +17,9 @@ const profileName = "Profilo"
 //Variables
 const Tab = createBottomTabNavigator();
 
-export default function TabBar({ navigation }) { 
+export default function TabBar({ route, navigation }) { 
+  const { username } = route.params;
+
   return (
     <NavigationContainer independent={true}>
         <Tab.Navigator 
@@ -44,8 +46,8 @@ export default function TabBar({ navigation }) {
             style: { padding: 10, height: 70}
           })}
           >
-            <Tab.Screen name={homeName} component={Home} />
-            <Tab.Screen name={profileName} component={ChangePasswordNavigator} />
+            <Tab.Screen name={homeName} component={Home} initialParams={{ username: username }} />
+            <Tab.Screen name={profileName} component={ChangePasswordNavigator} initialParams={{ username: username }} />
             <Tab.Screen name={logoutName} component={Login} listeners={{
               tabPress: e => {
                 e.preventDefault();
