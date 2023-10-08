@@ -54,7 +54,7 @@ VerificaCredenziali = async (navigation, username, password)=>{
         break;
       }
       case 200:{
-        response.json().then(navigation.navigate(tabBarName,{username: username}));
+        response.json().then(navigation.navigate(tabBarName,{username: username, password: password}));
         break; 
       }
       default:{

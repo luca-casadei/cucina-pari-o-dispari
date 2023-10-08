@@ -18,7 +18,6 @@ const profileName = "Profilo"
 const Tab = createBottomTabNavigator();
 
 export default function TabBar({ route, navigation }) { 
-  const { username } = route.params;
 
   return (
     <NavigationContainer independent={true}>
@@ -35,7 +34,7 @@ export default function TabBar({ route, navigation }) {
               } else if (rn === profileName) {
                 iconName = focused ? 'person' : 'person-outline';
               } else if (rn === logoutName) {
-                iconName = 'log-out-outline';
+                iconName = focused ? 'log-out' : 'log-out-outline';
               }
   
               return <Ionicons name={iconName} size={size} color={color} />;
@@ -46,8 +45,8 @@ export default function TabBar({ route, navigation }) {
             style: { padding: 10, height: 70}
           })}
           >
-            <Tab.Screen name={homeName} component={Home} initialParams={{ username: username }} />
-            <Tab.Screen name={profileName} component={ChangePasswordNavigator} initialParams={{ username: username }} />
+            <Tab.Screen name={homeName} component={Home} initialParams={{ value: route.params }} />
+            <Tab.Screen name={profileName} component={ChangePasswordNavigator} initialParams={{ value: route.params }} />
             <Tab.Screen name={logoutName} component={Login} listeners={{
               tabPress: e => {
                 e.preventDefault();

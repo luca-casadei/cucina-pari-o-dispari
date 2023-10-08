@@ -2,11 +2,11 @@ import React from 'react';
 import { StyleSheet,  Text, View } from 'react-native';
 
 export default function Home({ route }) { 
-  const { username } = route.params;
+  const { value } = route.params;
   
   return (
       <View style={styles.container}>
-            <Text style={{fontSize: 30, flex: 1, }}>Benvenuto/a {username}!</Text>
+            <Text style={{fontSize: 30, flex: 1, }}>Benvenuto/a {value.username}!</Text>
 
       </View>
   );

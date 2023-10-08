@@ -1,31 +1,76 @@
-import React from 'react';
+import { React, useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TextInput, Pressable, KeyboardAvoidingView } from 'react-native';
 
 //Screen names
 const changePasswordName = "Cambia Password";
 
-//Variables 
-var email = "Email da prendere da DB";
-var psw = "Password da prendere da DB";
-
 export default function Profile({ route, navigation }) {
-  const { username } = route.params;
   
+  
+  //Variables 
+  const { value } = route.params;
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [showHidePassword, setShowHidePassword] = useState(true);
+  const [getEffettuata, setGet] = useState(false);
+
+  //Methods
+  useEffect(()=>{
+    if(!getEffettuata){
+      console.log("Lo username é: " + value.username);
+      console.log("La password é: " + value.password);
+
+      getChef();
+      setPassword(value.password);
+      setGet(true);
+    }else{
+      console.log("La password dopo la modifica é: " + value.password);
+      setPassword(value.password);
+    }
+  });
+ 
+  getChef = async() => {
+    try{
+      var data = new URLSearchParams();
+      data.append('username', value.username);
+      fetch('https://apis-pari-o-dispari.azurewebsites.net/getchef', {
+          method: 'POST',
+          mode: 'cors',
+          headers: {
+          'Accept': 'application/x-www-form-urlencoded',
+          'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          body: data.toString(),
+          json:true,
+      }).then(response => response.json())
+      .then(response => {
+          setEmail(response.Email);
+      })
+    }catch(err)
+    {
+        console.log(err.message);
+    }
+  }
+
   return (
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : ''} style={styles.container}>
-        <Text style={{fontSize: 30, flex: 0.9,}}>Informazioni su {username}</Text>
-        <View style={{flex: 1, alignItems: 'center',}}>
-          
-        <Text>Email</Text>
-        <View  style={{flexDirection:"row", margin: 10,}}>
-          <TextInput placeholder={email} placeholderTextColor="black" style={styles.profileTextInput}></TextInput>
-          <Pressable style={styles.profilePressable}><Text style={{textAlign: 'center', fontWeight: 'bold', color:'white'}}>Aggiungi</Text></Pressable>
-        </View>
-        <Text>Password</Text>
-        <View style={{flexDirection:"row", margin: 10,}}>
-          <TextInput placeholder={psw} placeholderTextColor="black" style={styles.profileTextInput}></TextInput>
-          <Pressable onPress={() => navigation.navigate(changePasswordName)} style={styles.profilePressableEdit}><Text style={{textAlign: 'center', fontWeight: 'bold', color:'white'}}>Modifica</Text></Pressable>
-        </View>
+        <Text style={{fontSize: 30, flex: 0.3,}}>Informazioni su {value.username}</Text>
+        <View style={{flex: 0.6, alignItems: 'center',}}>
+          <Text>Email</Text>
+          { email != '' &&         
+            <View style={{flexDirection:"row", margin: 10,}}>
+              <TextInput editable={false} value={email} placeholderTextColor="black" style={styles.profileTextInput}></TextInput>
+            </View>
+          }
+          {email == '' &&
+              <Pressable style={styles.profilePressable}><Text style={{textAlign: 'center', fontWeight: 'bold', color:'white'}}>Aggiungi</Text></Pressable>
+          }
+          <Text>Password</Text>
+          <View style={{flexDirection:"row", margin: 10 }}>
+            <TextInput editable={false} value={password} secureTextEntry={showHidePassword} placeholderTextColor="black" style={styles.profileTextInput}></TextInput>
+            <Pressable onPress={() => setShowHidePassword(!showHidePassword)} style={styles.profilePressableShowHide}><Text style={{textAlign: 'center', fontWeight: 'bold', color:'white' }}>{ showHidePassword ? "Mostra" : "Nascondi" }</Text></Pressable>
+          </View>
+          <Pressable onPress={() => navigation.navigate(changePasswordName)} style={styles.profilePressableEdit}><Text style={{textAlign: 'center', fontWeight: 'bold', color:'white' }}>Modifica Password</Text></Pressable>
         </View>
       </KeyboardAvoidingView>
   );
@@ -58,13 +103,22 @@ const styles = StyleSheet.create({
       margin: 15,
     },
     profilePressableEdit: {
-      width: 110,
+      width: 180,
       height: 'auto',
       padding: 20,
       borderWidth: 1,
       borderRadius: 5,
       borderColor: 'grey',
       backgroundColor: '#198754',
+    },
+    profilePressableShowHide: {
+      width: 110,
+      height: 'auto',
+      padding: 20,
+      borderWidth: 1,
+      borderRadius: 5,
+      borderColor: 'grey',
+      backgroundColor: '#353238',
       margin: 15,
     },
   });

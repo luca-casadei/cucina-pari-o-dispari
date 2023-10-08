@@ -4,48 +4,90 @@ import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, Pressable, Ale
 //Screen names
 const profileName = "Profilo";
 
-//Variables 
-const oldPsw = "Vecchia password da prendere da DB";
-var newPsw = "Nuova password da prendere da DB";
-var confirmNewPsw = "Conferma password da prendere da DB";
-
-
-export default function ChangePassword({ navigation }) { 
-
-  const [vecchiaPassword,setVecchiaPassword] = useState('');
-  const [nuovaPassword,setNuovaPassword] = useState('');
-  const [confermaPassword,setConfermaPassword] = useState('');
+export default function ChangePassword({ route, navigation }) { 
+  //Variables 
+  const [oldPassword,setOldPassword] = useState('');
+  const [newPassword,setNewPassword] = useState('');
+  const [confirmNewPassword,setConfirmNewPassword] = useState('');
 
   const confermaModifica = ( navigation ) => {
-    if(vecchiaPassword.length == 0 && nuovaPassword.length == 0 && confermaPassword.length == 0){
-      alert("Inserire le informazioni per poter modificare la password!")
-    } else if(vecchiaPassword.length != 0 && nuovaPassword.length != 0 && nuovaPassword == confermaPassword){
+    if(oldPassword.length == 0 || newPassword.length == 0 || confirmNewPassword.length == 0){
+      alert("Compilare tutti i campi per poter modificare la password!")
+    } else if(newPassword == confirmNewPassword){
       // Controlli da aggiungere una volta che ci sarà il collegamento con il database.
-
-      Alert.alert('Attenzione', 'La password verrà modificata in caso di conferma!', [
-        {
-          text: 'Annulla',
-          onPress: () => console.log('Modifica password annullata'),
-          style: 'cancel',
-        },
-        {
-          text: 'Conferma', onPress: () => {console.log('Modifica password confermata'); navigation.navigate(profileName);}
-        },
-      ]);
+      if(route.params.value.password === oldPassword){
+        Alert.alert('Attenzione', 'La password verrà modificata in caso di conferma!', [
+          {
+            text: 'Annulla',
+            onPress: () => console.log('Modifica password annullata'),
+            style: 'cancel',
+          },
+          {
+            text: 'Conferma', onPress: () => {
+              console.log('Modifica password confermata'); 
+              navigation.navigate(profileName, {value: {
+                username: route.params.value.username,
+                password: newPassword,
+              }});
+              modificaPassword(route.params.value.username, newPassword);
+            }
+          },
+        ]);
+      } else {
+        alert('La password attuale inserita non corrisponde!');
+      }
+    } else {
+      alert('La nuova password è diversa dalla conferma.');
     }
   }
 
+  const modificaPassword = async(username, password)=>{
+    try{
+        var data = new URLSearchParams();
+        data.append('username', username);
+        data.append('password', password);
+        const response = await fetch('https://apis-pari-o-dispari.azurewebsites.net/setchefpassword', {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Accept': 'application/x-www-form-urlencoded',
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+          body: data.toString(),
+          json:true,
+      })
+      console.log(response.status);
+      switch(response.status){
+        case 502:{
+          alert("Errore interno, database non raggiungibile.");
+          break;
+        }
+        case 200:{
+            alert('Password modificata');
+          break; 
+        }
+        default:{
+          alert("Errore non gestito.");
+          break;
+        }
+      }
+    }catch(err)
+    {
+        console.log(err.message);
+    }
+}
+
   return (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : ''} style={styles.container}>
-        <View style={{flex: 0.9, alignItems: 'center',}}>
+        <View style={{flex: 0.7, alignItems: 'center',}}>
             <Text>Vecchia password</Text>
-            <TextInput onChangeText={setVecchiaPassword} placeholder={oldPsw} placeholderTextColor="black" style={styles.changePasswordTextInput}></TextInput>
+            <TextInput onChangeText={setOldPassword} placeholder='Inserire la password attuale' placeholderTextColor="black" style={styles.changePasswordTextInput}></TextInput>
 
             <Text>Nuova password</Text>
-            <TextInput onChangeText={setNuovaPassword} id='tiNewPsw' placeholder={newPsw} placeholderTextColor="black" style={styles.changePasswordTextInput}></TextInput>
+            <TextInput onChangeText={setNewPassword} placeholder='Inserire la nuova password' placeholderTextColor="black" style={styles.changePasswordTextInput}></TextInput>
 
             <Text>Conferma nuova password</Text>
-            <TextInput onChangeText={setConfermaPassword} id='tiNewPswConfirm' placeholder={confirmNewPsw} placeholderTextColor="black" style={styles.changePasswordTextInput}></TextInput>
+            <TextInput onChangeText={setConfirmNewPassword} placeholder='Confermare la password, reinserirla' placeholderTextColor="black" style={styles.changePasswordTextInput}></TextInput>
             
             <View style={{flexDirection:"row"}}>
               <Pressable onPress={() => navigation.navigate(profileName)} style={styles.changePasswordPressableBack}><Text style={{textAlign: 'center', fontWeight: 'bold', color:'white'}}>Indietro</Text></Pressable>
@@ -72,7 +114,7 @@ const styles = StyleSheet.create({
         margin: 20,
       },
       changePasswordPressableConfirm: {
-        width: 180,
+        width: 160,
         height: 'auto',
         padding: 20,
         borderWidth: 1,
@@ -88,7 +130,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 5,
         borderColor: 'grey',
-        backgroundColor: '#323232',
+        backgroundColor: '#353238',
         margin: 15,
       },
   });

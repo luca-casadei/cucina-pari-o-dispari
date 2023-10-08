@@ -12,14 +12,14 @@ const changePasswordName = "Cambia Password"
 const Stack = createNativeStackNavigator();
 
 
-export default function App({ route }) {
-  const { username } = route.params;
+export default function ChangePasswordNavigator({ route }) {
+  const { value } = route.params;
 
   return (
   <NavigationContainer independent={true}>
       <Stack.Navigator initialRouteName={profileName} screenOptions={{ headerShown: false, }}>
-        <Stack.Screen name={profileName} component={Profile} initialParams={{username: username}} />
-        <Stack.Screen name={changePasswordName} component={ChangePassword} initialParams={{username: username}} />
+        <Stack.Screen name={profileName} component={Profile} initialParams={{ value }} /> 
+        <Stack.Screen name={changePasswordName} component={ChangePassword} initialParams={{ value }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
