@@ -43,18 +43,17 @@ export default function ChangePassword({ route, navigation }) {
 
   const modificaPassword = async(username, password)=>{
     try{
-        var data = new URLSearchParams();
-        data.append('username', username);
-        data.append('password', password);
         const response = await fetch('https://apis-pari-o-dispari.azurewebsites.net/setchefpassword', {
         method: 'POST',
         mode: 'cors',
         headers: {
-          'Accept': 'application/x-www-form-urlencoded',
-          'Content-Type': 'application/x-www-form-urlencoded'
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
         },
-          body: data.toString(),
-          json:true,
+          body: JSON.stringify({
+            username: username,
+            password: password,
+          }),
       })
       console.log(response.status);
       switch(response.status){
@@ -71,8 +70,7 @@ export default function ChangePassword({ route, navigation }) {
           break;
         }
       }
-    }catch(err)
-    {
+    }catch(err){
         console.log(err.message);
     }
 }

@@ -19,23 +19,20 @@ export default function Home({ route }) {
   
   getAssociations = async() => {
     try{
-      var data = new URLSearchParams();
-      data.append('username', value.username);
       fetch('https://apis-pari-o-dispari.azurewebsites.net/getassociazionecucine', {
           method: 'POST',
           mode: 'cors',
           headers: {
-          'Accept': 'application/x-www-form-urlencoded',
-          'Content-Type': 'application/x-www-form-urlencoded'
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
           },
-          body: data.toString(),
-          json:true,
-      }).then(response => response.json())
-      .then(response => {
+          body: JSON.stringify({
+            username: value.username,
+          })
+      }).then(response => {
         setAssociations(response);
       })
-    }catch(err)
-    {
+    }catch(err){
         console.log(err.message);
     }
   }

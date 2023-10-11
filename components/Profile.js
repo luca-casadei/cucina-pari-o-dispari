@@ -31,17 +31,16 @@ export default function Profile({ route, navigation }) {
  
   getChef = async() => {
     try{
-      var data = new URLSearchParams();
-      data.append('username', value.username);
       fetch('https://apis-pari-o-dispari.azurewebsites.net/getchef', {
           method: 'POST',
           mode: 'cors',
           headers: {
-          'Accept': 'application/x-www-form-urlencoded',
-          'Content-Type': 'application/x-www-form-urlencoded'
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
           },
-          body: data.toString(),
-          json:true,
+          body: JSON.stringify({
+            username: value.username,
+          })
       }).then(response => response.json())
       .then(response => {
           setEmail(response.Email);

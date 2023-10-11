@@ -26,19 +26,18 @@ VerificaCredenziali = async (navigation, username, password)=>{
   console.log(username);
   console.log(password);
   try{
-      var data = new URLSearchParams();
-      data.append('username', username);
-      data.append('password', password);
       const response = await fetch('https://apis-pari-o-dispari.azurewebsites.net/cheflogin', {
-      method: 'POST',
-      mode: 'cors',
-      headers: {
-        'Accept': 'application/x-www-form-urlencoded',
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-        body: data.toString(),
-        json:true,
-    })
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json', 
+        },
+        body: JSON.stringify({
+          username: username,
+          password: password,
+        })
+      });
     console.log(response.status);
     switch(response.status){
       case 502:{
