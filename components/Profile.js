@@ -1,5 +1,6 @@
 import { React, useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TextInput, Pressable, KeyboardAvoidingView } from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 //Screen names
 const changePasswordName = "Cambia Password";
@@ -65,9 +66,9 @@ export default function Profile({ route, navigation }) {
               <Pressable style={styles.profilePressable}><Text style={{textAlign: 'center', fontWeight: 'bold', color:'white'}}>Aggiungi</Text></Pressable>
           }
           <Text>Password</Text>
-          <View style={{flexDirection:"row", margin: 10 }}>
+          <View style={{flexDirection:"row", }}>
             <TextInput editable={false} value={password} secureTextEntry={showHidePassword} placeholderTextColor="black" style={styles.profileTextInput}></TextInput>
-            <Pressable onPress={() => setShowHidePassword(!showHidePassword)} style={styles.profilePressableShowHide}><Text style={{textAlign: 'center', fontWeight: 'bold', color:'white' }}>{ showHidePassword ? "Mostra" : "Nascondi" }</Text></Pressable>
+            <Pressable onPress={() => setShowHidePassword(!showHidePassword)} style={{marginTop: 30, }}><Text><Ionicons name={showHidePassword ? 'eye-off' : 'eye'} size={28} color="black"/></Text></Pressable>
           </View>
           <Pressable onPress={() => navigation.navigate(changePasswordName)} style={styles.profilePressableEdit}><Text style={{textAlign: 'center', fontWeight: 'bold', color:'white' }}>Modifica Password</Text></Pressable>
         </View>
@@ -109,15 +110,5 @@ const styles = StyleSheet.create({
       borderRadius: 5,
       borderColor: 'grey',
       backgroundColor: '#198754',
-    },
-    profilePressableShowHide: {
-      width: 110,
-      height: 'auto',
-      padding: 20,
-      borderWidth: 1,
-      borderRadius: 5,
-      borderColor: 'grey',
-      backgroundColor: '#353238',
-      margin: 15,
     },
   });

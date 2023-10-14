@@ -9,11 +9,11 @@ export default function Home({ route }) {
   const [associations, setAssociations] = useState([ ]);
   const [getEffettuata, setGet] = useState(false);
 
-
   //Methods
   useEffect(()=>{
     if(!getEffettuata){
       getAssociations();
+      setGet(true);
     }
   });
   
@@ -29,8 +29,9 @@ export default function Home({ route }) {
           body: JSON.stringify({
             username: value.username,
           })
-      }).then(response => {
-        setAssociations(response);
+      }).then(response => response.json())
+      .then(response => {
+        setAssociations(response.map(o => o.CognomeBambino + " " + o.NomeBambino));
       })
     }catch(err){
         console.log(err.message);

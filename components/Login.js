@@ -1,5 +1,6 @@
 import { React, useState } from 'react';
-import { StyleSheet, Image, Text, TextInput, Linking, Pressable, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, Image, Text, TextInput, Linking, Pressable, View, KeyboardAvoidingView } from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 //Screen names
 const tabBarName = "TabBar";
@@ -7,18 +8,22 @@ const tabBarName = "TabBar";
 export default function Login({ navigation }) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [showHidePassword, setShowHidePassword] = useState(true);
 
     return (
-        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : ''} style={styles.container}>
-            <Image style={styles.logo} source={require('../images/Logo.png')}></Image>
-            <Text style={styles.loginText}>Inserisci lo username </Text>
-            <TextInput onChangeText={setUsername} placeholder="Username" placeholderTextColor="black" style={styles.loginTextInput}></TextInput>
-            <Text style={styles.loginText}>Inserisci la password </Text>
-            <TextInput onChangeText={setPassword} secureTextEntry={true} maxLength={20} placeholder="Password" placeholderTextColor="black" style={styles.loginTextInput}></TextInput>
-            <Text>Password dimenticata?</Text>
-            <Text style={{color: 'blue', margin: 5}} onPress={() => Linking.openURL('https://www.auslromagna.it/')}>Contatta l'amministratore</Text>
-            <Pressable onPress={() => VerificaCredenziali(navigation,username,password)} style={styles.loginPressable}><Text style={{textAlign: 'center', fontWeight: 'bold', color:'white'}}>Accedi</Text></Pressable>
-        </KeyboardAvoidingView>
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : ''} style={styles.container}>
+          <Image style={styles.logo} source={require('../images/Logo.png')}></Image>
+          <Text style={styles.loginText}>Inserisci lo username </Text>
+          <TextInput onChangeText={setUsername} placeholder="Username" placeholderTextColor="black" style={styles.loginTextInput}></TextInput>
+          <Text style={styles.loginText}>Inserisci la password </Text>
+          <View style={{flexDirection:"row",}}>
+            <TextInput onChangeText={setPassword} secureTextEntry={showHidePassword} maxLength={20} placeholder="Password" placeholderTextColor="black" style={styles.loginTextInput}></TextInput>
+            <Pressable onPress={() => setShowHidePassword(!showHidePassword)} style={{marginTop: 30}}><Text><Ionicons name={showHidePassword ? 'eye-off' : 'eye'} size={28} color="black"/></Text></Pressable>
+          </View>
+          <Text>Password dimenticata?</Text>
+          <Text style={{color: 'blue', margin: 5}} onPress={() => Linking.openURL('https://www.auslromagna.it/')}>Contatta l'amministratore</Text>
+          <Pressable onPress={() => VerificaCredenziali(navigation,username,password)} style={styles.loginPressable}><Text style={{textAlign: 'center', fontWeight: 'bold', color:'white'}}>Accedi</Text></Pressable>
+      </KeyboardAvoidingView>
     );
 }
 
