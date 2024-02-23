@@ -19,7 +19,7 @@ export default function Home({ route }) {
   
   getAssociations = async() => {
     try{
-      fetch('https://apis-pari-o-dispari.azurewebsites.net/getassociazionecucine', {
+      fetch('https://casadei.ddns.net:3000/getassociazionecucine', {
           method: 'POST',
           mode: 'cors',
           headers: {

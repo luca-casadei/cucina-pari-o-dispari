@@ -31,11 +31,10 @@ VerificaCredenziali = async (navigation, username, password)=>{
   console.log(username);
   console.log(password);
   try{
-      const response = await fetch('https://apis-pari-o-dispari.azurewebsites.net/cheflogin', {
+      const response = await fetch('https://casadei.ddns.net:3000/cheflogin', {
         method: 'POST',
         mode: 'cors',
         headers: {
-          'Accept': 'application/json',
           'Content-Type': 'application/json', 
         },
         body: JSON.stringify({

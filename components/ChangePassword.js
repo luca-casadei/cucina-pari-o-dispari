@@ -43,7 +43,7 @@ export default function ChangePassword({ route, navigation }) {
 
   const modificaPassword = async(username, password)=>{
     try{
-        const response = await fetch('https://apis-pari-o-dispari.azurewebsites.net/setchefpassword', {
+        const response = await fetch('https://casadei.ddns.net:3000/setchefpassword', {
         method: 'POST',
         mode: 'cors',
         headers: {

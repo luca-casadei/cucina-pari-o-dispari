@@ -32,7 +32,7 @@ export default function Profile({ route, navigation }) {
  
   getChef = async() => {
     try{
-      fetch('https://apis-pari-o-dispari.azurewebsites.net/getchef', {
+      fetch('https://casadei.ddns.net:3000/getchef', {
           method: 'POST',
           mode: 'cors',
           headers: {
