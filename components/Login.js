@@ -30,6 +30,7 @@ export default function Login({ navigation }) {
 VerificaCredenziali = async (navigation, username, password)=>{
   console.log(username);
   console.log(password);
+
   try{
       const response = await fetch('https://casadei.ddns.net:3000/cheflogin', {
         method: 'POST',
