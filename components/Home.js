@@ -3,19 +3,21 @@ import { StyleSheet, Text, View } from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
 
 export default function Home({ route }) {
-
-  // Variabili
+  // Variables
   const { value } = route.params;
   const [associations, setAssociations] = useState([]);
   const [selectedChild, setSelectedChild] = useState(null);
   const [kidMenuInfo, setKidMenuInfo] = useState(null);
   const [menuDishes, setMenuDishes] = useState([]);
 
-  // Metodi
+  // Methods
   useEffect(() => {
     if (!associations.length) {
       getAssociations();
     }
+  }, []);
+
+  useEffect(() => {
     if (selectedChild && kidMenuInfo && kidMenuInfo.IdMenu) {
       getKidMenuDishes(selectedChild.CodiceFiscaleBambino, kidMenuInfo.IdMenu);
     }
@@ -56,7 +58,7 @@ export default function Home({ route }) {
       });
       const responseData = await response.text();
       try {
-        const data = JSON.parse(responseData); 
+        const data = JSON.parse(responseData);
         setKidMenuInfo(data);
       } catch (error) {
         console.log("Errore nel parsing della risposta JSON:", error);
@@ -65,7 +67,7 @@ export default function Home({ route }) {
     } catch (error) {
       console.log(error.message);
     }
-  };  
+  };
 
   const getKidMenuDishes = async (codiceFiscaleParam, idMenu) => {
     try {

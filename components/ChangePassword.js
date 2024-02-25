@@ -1,21 +1,27 @@
-import {React, useState} from 'react'
+import { React, useState, useEffect } from 'react';
 import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, Pressable, Alert } from 'react-native';
 
-//Screen names
+// Screen names
 const profileName = "Profilo";
 
 export default function ChangePassword({ route, navigation }) { 
-  //Variables 
-  const [oldPassword,setOldPassword] = useState('');
-  const [newPassword,setNewPassword] = useState('');
-  const [confirmNewPassword,setConfirmNewPassword] = useState('');
+  // Variables 
+  const [oldPassword, setOldPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmNewPassword, setConfirmNewPassword] = useState('');
 
-  const confermaModifica = ( navigation ) => {
-    if(oldPassword.length == 0 || newPassword.length == 0 || confirmNewPassword.length == 0){
-      alert("Compilare tutti i campi per poter modificare la password!")
-    } else if(newPassword == confirmNewPassword){
-      // Controlli da aggiungere una volta che ci sarà il collegamento con il database.
-      if(route.params.value.password === oldPassword){
+  useEffect(() => {
+    if (!route.params) return;
+    setOldPassword('');
+    setNewPassword('');
+    setConfirmNewPassword('');
+  }, [route.params]);
+
+  const confermaModifica = () => {
+    if (oldPassword.length === 0 || newPassword.length === 0 || confirmNewPassword.length === 0) {
+      alert("Compilare tutti i campi per poter modificare la password!");
+    } else if (newPassword === confirmNewPassword) {
+      if (route.params.value.password === oldPassword) {
         Alert.alert('Attenzione', 'La password verrà modificata in caso di conferma!', [
           {
             text: 'Annulla',
@@ -25,10 +31,7 @@ export default function ChangePassword({ route, navigation }) {
           {
             text: 'Conferma', onPress: () => {
               console.log('Modifica password confermata'); 
-              navigation.navigate(profileName, {value: {
-                username: route.params.value.username,
-                password: newPassword,
-              }});
+              navigation.navigate(profileName, { value: { username: route.params.value.username, password: newPassword } });
               modificaPassword(route.params.value.username, newPassword);
             }
           },
@@ -39,41 +42,35 @@ export default function ChangePassword({ route, navigation }) {
     } else {
       alert('La nuova password è diversa dalla conferma.');
     }
-  }
+  };
 
-  const modificaPassword = async(username, password)=>{
-    try{
-        const response = await fetch('https://casadei.ddns.net:3000/setchefpassword', {
+  const modificaPassword = async (username, password) => {
+    try {
+      const response = await fetch('https://casadei.ddns.net:3000/setchefpassword', {
         method: 'POST',
         mode: 'cors',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
-          body: JSON.stringify({
-            username: username,
-            password: password,
-          }),
-      })
+        body: JSON.stringify({ username, password }),
+      });
       console.log(response.status);
-      switch(response.status){
-        case 502:{
+      switch (response.status) {
+        case 502:
           alert("Errore interno, database non raggiungibile.");
           break;
-        }
-        case 200:{
-            alert('Password modificata');
+        case 200:
+          alert('Password modificata');
           break; 
-        }
-        default:{
+        default:
           alert("Errore non gestito.");
           break;
-        }
       }
-    }catch(err){
-        console.log(err.message);
+    } catch (err) {
+      console.log(err.message);
     }
-}
+  };
 
   return (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : ''} style={styles.container}>
@@ -89,7 +86,7 @@ export default function ChangePassword({ route, navigation }) {
             
             <View style={{flexDirection:"row"}}>
               <Pressable onPress={() => navigation.navigate(profileName)} style={styles.changePasswordPressableBack}><Text style={{textAlign: 'center', fontWeight: 'bold', color:'white'}}>Indietro</Text></Pressable>
-              <Pressable onPress={() => confermaModifica(navigation)} style={styles.changePasswordPressableConfirm}><Text style={{textAlign: 'center', fontWeight: 'bold', color:'white'}}>Modifica e Salva</Text></Pressable>
+              <Pressable onPress={confermaModifica} style={styles.changePasswordPressableConfirm}><Text style={{textAlign: 'center', fontWeight: 'bold', color:'white'}}>Modifica e Salva</Text></Pressable>
             </View>
         </View>
     </KeyboardAvoidingView>
@@ -111,24 +108,24 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         margin: 20,
       },
-      changePasswordPressableConfirm: {
-        width: 160,
-        height: 'auto',
-        padding: 20,
-        borderWidth: 1,
-        borderRadius: 5,
-        borderColor: 'grey',
-        backgroundColor: '#009B4D',
-        margin: 15,
-      },
-      changePasswordPressableBack: {
-        width: 100,
-        height: 'auto',
-        padding: 20,
-        borderWidth: 1,
-        borderRadius: 5,
-        borderColor: 'grey',
-        backgroundColor: '#353238',
-        margin: 15,
-      },
-  });
+    changePasswordPressableConfirm: {
+      width: 160,
+      height: 'auto',
+      padding: 20,
+      borderWidth: 1,
+      borderRadius: 5,
+      borderColor: 'grey',
+      backgroundColor: '#009B4D',
+      margin: 15,
+    },
+    changePasswordPressableBack: {
+      width: 100,
+      height: 'auto',
+      padding: 20,
+      borderWidth: 1,
+      borderRadius: 5,
+      borderColor: 'grey',
+      backgroundColor: '#353238',
+      margin: 15,
+    },
+});
